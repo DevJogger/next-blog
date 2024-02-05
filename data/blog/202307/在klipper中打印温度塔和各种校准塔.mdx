@@ -1,0 +1,66 @@
+---
+title: 在klipper中打印温度塔和各种校准塔
+date: '2023-07-04'
+tags: ['3D打印', 'klipper', 'code']
+draft: false
+summary: 如何在klipper中通过`TUNING_TOWER`命令设置打印参数渐进式改变, 实现温度塔和各种校准塔的打印
+---
+
+各种 3D 打印耗材的特性都不相同, 打印条件也不一样, 有的需要更高的温度, 有的需要更多的回抽距离和回抽速度. 即使是同一品牌的同意材质耗材, 不同颜色也可能会有一些区别, 因此每当新入手一款耗材, 测试合适的打印温度和回抽距离/速度, 成为了必不可少的固定动作.
+
+在使用 klipper 的`TUNING_TOWER`命令之前, 我曾经通过下载别人预设好的模型`.gcode`文件来做这种测试, 但是一方面存在安全隐患, 另一方面很多时候并不能很方便地修改, 后来我也尝试在切片软件中给特定层加入 gcode 的方式改变具体某些层的打印温度, 但是手动添加往往很不方便.
+
+klipper 的`TUNING_TOWER`命令彻底解决了我的这些烦恼.
+
+根据[官方文档的介绍](https://github.com/klipper3d/klipper/blob/master/docs/G-Codes.md#tuning_tower-1)(klipper v0.11 版本), 我们只需要在 mainsail/fluidd/OctoPrint 的控制台(console)里输入`TUNING_TOWER COMMAND=<command> PARAMETER=<name> START=<value> [SKIP=<value>] [FACTOR=<value> [BAND=<value>]] | [STEP_DELTA=<value> STEP_HEIGHT=<value>]` (中括号包裹的为可选参数), 就可以开启校准塔, 然后在紧接下来打印的一个模型中生效, 这个功能是默认自带, 无需在`printer.cfg`文件中配置.
+
+具体用法, `COMMAND` 为各种 klipper 的 gcode 设置命令, 常用的包括:
+
+- 设置热端(喷嘴)温度 `COMMAND='SET_HEATER_TEMPERATURE HEATER=extruder'`
+- 设置回抽配置 `COMMAND=SET_RETRACTION`
+
+`PARAMETER` 为各种目标参数, 常用的包括:
+
+- 热端(喷嘴)目标温度 `TARGET`
+- 回抽距离 `PARAMETER=RETRACT_LENGTH`
+- 回抽速度 `PARAMETER=_SPEED`
+
+`START` 为开始值, `SKIP` 是可选参数, 为跳过的高度(单位为 mm), 在到达`SKIP` 值之前, 会采用切片软件设置的值, 当达到`SKIP`值之时, 会采用`START`设置的值. 比如需要打印一个温度塔, 其基座为 1mm, 如果设置`START=260 SKIP=1`, 在切片软件中设置的打印温度为 250, 则打印机会在前 1mm 的打印中使用 250 摄氏度打印, 到了 1mm 后开始用 260 度打印(但需要考虑升温速度).
+
+在有关涉及变化值的可选参数中, `FACTOR` 为每 mm 的变化值, `BAND` 则是一个非常不好理解的参数(涉及四舍五入), 因此我更推荐在 2021 年的[这个 PR 中](https://github.com/Klipper3d/klipper/pull/4439)新加入的更容易理解的`STEP_DELTA`和`STEP_HEIGHT`. 对于这两个参数, 可以用一句话概括: 每隔`STEP_HEIGHT` mm 就会改变`STEP_DELTA`.
+
+但要记住的是, 如果选择使用了`FACTOR`就不能使用`STEP_DELTA` 和 `STEP_HEIGHT`.
+
+比如: 要设置打印一个温度塔, 可以使用
+
+```
+TUNING_TOWER COMMAND='SET_HEATER_TEMPERATURE HEATER=extruder' PARAMETER=TARGET START=260 SKIP=1 STEP_DELTA=-5 STEP_HEIGHT=6.8
+```
+
+它的意思是: 在打印了 1mm 之后(模型基座高度), 设置热端(喷嘴)目标温度为 260, 然后每隔 6.8mm 就减少 5 摄氏度.
+
+在测试回抽距离的校准塔, 可以使用
+
+`TUNING_TOWER COMMAND=SET_RETRACTION PARAMETER=RETRACT_LENGTH START=0 FACTOR=0.05 SKIP=1`
+
+或者
+
+`TUNING_TOWER COMMAND=SET_RETRACTION PARAMETER=RETRACT_LENGTH START=0 STEP_DELTA=0.05 STEP_HEIGHT=1 SKIP=1`
+
+它们的意思是相同的, 即在打印了 1mm 之后(模型基座高度), 设置回抽距离为 0, 然后每隔 1mm 就增加 0.05mm 的回抽距离.
+
+不过, 对于打印回抽校准塔, 还有 2 个地方需要进行设置:
+
+- 一是需要在切片软件中打开'Use firmware retraction'(固件控制回抽), 此时切片软件不会设置具体的回抽相关数值,只会用 G10,G11 的代码告诉打印机需要回抽.
+
+- 二是 klipper 的`print.cfg`中设置由固件控制回抽
+
+```
+[firmware_retraction]
+retract_length: 1
+retract_speed: 60
+unretract_extra_length: 0
+unretract_speed: 60
+```
+
+当完成了这些设置后, 除命令中涉及的参数(如例子中的回抽距离)以外, 其余都会按照`print.cfg`中的这个设置的值来打印(包括 skip 部分).

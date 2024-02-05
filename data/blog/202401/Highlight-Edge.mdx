@@ -1,0 +1,84 @@
+---
+title: Creating a Stunning Mouse-Interactive Card Edge Highlight Effect with Tailwind CSS
+date: '2024-01-29'
+tags: ['CSS', 'Tailwind CSS']
+---
+
+<HighlightEdge />
+
+(The effect is only achievable on PCs since mobile devices lack a mouse 🤣)
+
+Recently, I experimented with a visually impressive UI effect in which card borders dynamically follow the mouse cursor, creating an engaging and visually appealing experience. In this blog post, I'll share the code for achieving this effect using Tailwind CSS and React, along with some tips on building such effects.
+
+## Implementation Approach
+
+To achieve this effect, we need to track the mouse's position, calculate each card's relative position to the mouse, and set the card's border highlight using styles. Below is the code that implements this effect:
+
+```tsx
+import { useState, useMemo, useRef } from 'react'
+
+export default function HighlightEdge() {
+  const [mouseX, setMouseX] = useState(0)
+  const [mouseY, setMouseY] = useState(0)
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setMouseX(e.clientX)
+    setMouseY(e.clientY)
+  }
+  return (
+    <div className="flex items-center justify-center">
+      <div className="grid grid-cols-4 gap-2" onMouseMove={(e) => handleMouseMove(e)}>
+        {Array.from({ length: 16 }).map((_, index) => {
+          return <Card key={index} index={index} mouseX={mouseX} mouseY={mouseY} />
+        })}
+      </div>
+    </div>
+  )
+}
+
+interface CardProps {
+  index: number
+  mouseX: number
+  mouseY: number
+}
+
+function Card({ index, mouseX: mouse_x, mouseY: mouse_y }: CardProps) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const x = useMemo(() => {
+    return mouse_x - (cardRef.current?.getBoundingClientRect().left ?? 1000)
+  }, [mouse_x])
+  const y = useMemo(() => {
+    return mouse_y - (cardRef.current?.getBoundingClientRect().top ?? 1000)
+  }, [mouse_y])
+
+  return (
+    <div
+      ref={cardRef}
+      style={
+        {
+          '--backgroundColor': `hsl(${22.5 * index}, 70%, 20%)`,
+          '--backgroundHighlightColor': `hsl(${22.5 * index}, 100%, 70%)`,
+          '--x': `${x}px`,
+          '--y': `${y}px`,
+        } as React.CSSProperties
+      }
+      className="relative h-12 w-12 overflow-hidden rounded-md bg-[var(--backgroundColor)] before:absolute before:left-[var(--x)] before:top-[var(--y)] before:z-10 before:h-full before:w-full before:-translate-x-1/2 before:-translate-y-1/2 before:bg-[radial-gradient(closest-side_circle,_var(--tw-gradient-stops))] before:from-[var(--backgroundHighlightColor)] before:to-transparent before:content-[''] md:h-24 md:w-24 before:md:h-36 before:md:w-36"
+    >
+      <div className="absolute inset-1 z-20 grid place-items-center rounded-md bg-stone-900">
+        <span className="text-2xl font-bold text-white">{index + 1}</span>
+      </div>
+    </div>
+  )
+}
+```
+
+## Code Breakdown
+
+1. Mouse Position Tracking: Use useState to track the X and Y coordinates of the mouse, updating them in the handleMouseMove function.
+
+2. Card Relative Position Calculation: Utilize useRef and getBoundingClientRect to get each card's position relative to the viewport, then calculate the mouse's position relative to each card.
+
+3. Style Setting: Use the style attribute to dynamically set the card's styles, including background color, border highlight color, and offsets relative to the mouse.
+
+4. Animation Effects: Leverage Tailwind CSS classes to apply animation effects to the cards, making the border highlight more dynamic.
+
+This approach results in a visually striking UI effect that enhances user interaction. This is just a simple example, and you can customize and optimize it further based on your project requirements.

@@ -1,0 +1,19 @@
+---
+title: Linux中调整USB摄像头参数
+date: '2023-07-20'
+tags: ['3D打印', 'raspberry pi', 'linux', 'USB', 'camera']
+draft: false
+---
+
+罗列所有可控参数
+
+```bash
+v4l2-ctl -d /dev/video0 --list-ctrls-menus
+```
+
+调整参数（举例）
+
+```bash
+sudo v4l2-ctl --set-ctrl=brightness=24
+sudo v4l2-ctl --set-ctrl=contrast=10
+```

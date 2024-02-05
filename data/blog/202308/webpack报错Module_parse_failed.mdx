@@ -1,0 +1,28 @@
+---
+title: webpack报错Module parse failed Unexpected character '@'
+date: '2023-08-04'
+tags: ['vue', 'webpack', 'css']
+draft: false
+---
+
+在维护一个用 Vue 2.4 + webpack 2.7 的石器时代历史项目时碰到一个问题，在引入了新的 css 和字体之后，`npm run dev` 时报错：
+
+```
+Module parse failed: ******.css Unexpected character '@' (1:0)
+```
+
+查询一番发现是 webpack 配置中，css 相关 loader 当中的 include 要包括所提及 css 的路径，如下：
+
+```js
+{
+  test: /\.(scss|sass|css)$/,
+  use: ["style-loader", "css-loader", postcssLoader, "sass-loader"],
+  include:
+    process.env.NODE_ENV === "production"
+      ? "/src/style/"
+      : [resolve("src/style/"), resolve("src/assets/fonts")],
+  exclude: "/node_modules/",
+},
+```
+
+##### [Reference](https://github.com/webpack-contrib/sass-loader/issues/344)

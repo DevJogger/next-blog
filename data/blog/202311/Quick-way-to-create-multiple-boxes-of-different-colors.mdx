@@ -1,0 +1,27 @@
+---
+title: Quick way to create multiple boxes of different colors with ReactJS + Tailwind CSS
+date: '2023-11-25'
+tags: ['CSS', 'React', 'Tailwind CSS']
+---
+
+Sometimes we need to test a layout on a page, to create multiple boxes of different colors is a good way to do it.
+
+<MultiColorsBoxes />
+
+Here's a method using ReactJS + Tailwind CSS. You can integrate it into your VS Code user snippets and assign a shortcut. The next time you need it, simply input the shortcut, press enter, and you'll have it completed in no time.
+
+```jsx
+<div className="grid grid-cols-4 gap-4">
+  {Array.from({ length: 16 }).map((_, index) => {
+    return (
+      <div
+        key={index}
+        className="flex h-12 w-12 items-center justify-center rounded-md md:h-24 md:w-24"
+        style={{ backgroundColor: `hsl(${22.5 * index}, 70%, 50%)` }}
+      >
+        <span className="text-2xl font-bold text-white">{index + 1}</span>
+      </div>
+    )
+  })}
+</div>
+```

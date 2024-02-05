@@ -21,8 +21,15 @@ module.exports = {
         13: '3.25rem',
         14: '3.5rem',
       },
+      scale: {
+        300: '3',
+      },
       fontFamily: {
         sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
+        eps: ['Eps', ...fontFamily.sans],
+        din: ['DIN', ...fontFamily.sans],
+        poppins: ['Poppins', 'sans-serif'],
+        TiltPrism: ['Tilt Prism', 'sans-serif'],
       },
       colors: {
         primary: colors.pink,
@@ -67,5 +74,9 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('tailwindcss-3d'),
+  ],
 }

@@ -1,0 +1,24 @@
+---
+title: 在react component之外获取/更新zustand状态
+date: '2023-07-06'
+tags: ['react', 'zustand', 'hook']
+draft: false
+---
+
+zustand 已经成为了我最喜欢的 react 状态管理工具, 它比 redux 要简洁和方便, 也很灵活. 一般情况下, 我们只会在 component 内部去获取/更新 zustand 的状态, 但有的时候也需要在 component 外实现, 比如说在两个 zustand 的 store 之间获取状态, 其实官方文档也有[介绍](https://github.com/pmndrs/zustand#readingwriting-state-and-reacting-to-changes-outside-of-components).
+
+```typescript
+// 比如创建了一个store
+import { create } from 'zustand'
+const useDogStore = create(() => ({ paw: true, snout: true, fur: true }))
+
+// 在component以外的地方(比如另外一个store)要获取store里的名为paw的状态, 可以通过getState()方法
+// 需要注意的是该状态是non-reactive的, 即只在该行命令执行时的状态, 后续不会因store里的值更新而自动更新
+const paw = useDogStore.getState().paw
+// 通过setState()方法, 更新状态
+useDogStore.setState({ paw: false })
+// 可以通过subscribe()方法监听状态改变, 参数传入一个回调函数, store里的所有状态改变都将触发该回调函数
+const unsub1 = useDogStore.subscribe(console.log)
+// 注销监听的方法
+unsub1()
+```

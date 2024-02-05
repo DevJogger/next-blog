@@ -1,0 +1,30 @@
+---
+title: Manjaro(Arch)中设置MicroPython开发环境
+date: '2023-07-21'
+tags: ['ESP', 'MCU', '开发板', 'USB', 'Linux', 'Manjaro', 'Arch', 'MicroPython', 'USB']
+draft: false
+---
+
+之前在 Windows 下玩 MicroPython 开发，但是在 Linux 下使用 MicroPython 开发的时候，遇到了一些问题，这里记录一下。
+
+当开发板通过 USB 连接到 Manjaro 系统的时候，出现了无法识别的情况，通过`lsusb`命令可以看到设备已经被识别，但是无法被访问。
+
+后来发现是用户并未加入`plugdev`组，通过<code>sudo gpasswd -a _username_ plugdev</code>命令将用户加入`plugdev`组，然后就可以正常访问 USB 设备了刷入 MicroPython 固件了。
+
+最离谱的是，Manjaro 和 Arch 的网站和文档里都没有提过`plugdev`组，我最终参考了[debian 的 group 文档中有关`plugdev`组的介绍](<https://wiki.debian.org/SystemGroups#__next:~:text=plugdev:%20Allows%20members%20to%20mount%20(only%20with%20the%20options%20nodev%20and%20nosuid,%20for%20security%20reasons)%20and%20umount%20removable%20devices%20through%20pmount.>)才解决了这个问题。
+
+除此之外的 Manjaro/Arch 常用 group 命令还有:
+
+- 列出系统现有的所有 group`cat /etc/group`
+- 列出当前用户所在的所有 group<code> groups _username_ </code>
+- 添加用户到某个 group<code> sudo gpasswd -a _username_ _groupname_ </code>
+- 从某个 group 中删除用户<code> sudo gpasswd -d _username_ _groupname_ </code>
+
+### 参考
+
+- [archlinux官方文档](https://wiki.archlinux.org/title/Users_and_groups#Group_management)
+- [debian官方文档](https://wiki.debian.org/SystemGroups)
+
+### 备注
+
+从解决问题到写这篇文章，隔了一段时间，有些细节已经忘记了，但是大致的思路还是记得的，所以这篇文章的内容可能有些不准确，但是大致的思路还是对的，如果有人看到这篇文章，发现有什么不对的地方，欢迎指出，谢谢。

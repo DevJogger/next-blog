@@ -1,0 +1,30 @@
+---
+title: 在Linux CLI中从远程复制文件到本地
+date: '2023-10-22'
+tags: ['linux', 'ssh', 'cli']
+draft: false
+---
+
+两个比较主流的工具可以实现：scp和rsync。
+
+## scp
+
+```bash
+scp -r -v username@remote:/path/to/fileOrFolder /path/to/destination
+# -r: recursive 递归复制文件夹里的所有文件（如果是文件夹，一般都需要加）
+# -v: verbose 显示详细信息（帮助debug）
+```
+
+## rsync
+
+```bash
+rsync -r -v --progress -e ssh username@remote:/path/to/fileOrFolder /path/to/destination
+# -r: recursive 递归复制文件夹里的所有文件（如果是文件夹，一般都需要加）
+# -v: verbose 显示详细信息（帮助debug）
+# --progress: 显示进度
+# -e: 指定使用的协议，默认是rsh，这里使用ssh
+```
+
+在原文件路径中，如果末尾有`/`，会把文件夹里的所有文件复制到目标路径，如果没有`/`，则会把文件夹本身复制到目标路径。
+
+两者相比，rsync的优势在于可以增量复制，即只复制变化的部分，而scp每次都会复制所有文件，而且rsync的选项更多，但scp是很多linux发行版的默认工具，rsync需要额外安装。

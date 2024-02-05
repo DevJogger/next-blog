@@ -1,23 +1,24 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Next.js Starter Blog',
-  author: 'Tails Azimuth',
-  headerTitle: 'TailwindBlog',
+  title: `Jerry's blog`,
+  author: 'Jerry',
+  headerTitle: `Jerry's blog`,
   description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://j3rry.site',
+  siteRepo: 'https://github.com/DevJogger/next-blog',
   siteLogo: '/static/images/logo.png',
+  image: '/static/images/avatar.png',
   socialBanner: '/static/images/twitter-card.png',
-  mastodon: 'https://mastodon.social/@mastodonuser',
-  email: 'address@yoursite.com',
-  github: 'https://github.com',
-  twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
+  email: 'prettynormal@duck.com',
+  github: 'https://github.com/DevJogger',
+  twitter: '',
+  facebook: '',
+  youtube: '',
+  linkedin: 'https://www.linkedin.com/in/iamjerry/',
   locale: 'en-US',
+  // mastodon: 'https://mastodon.social/@mastodonuser',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
@@ -25,6 +26,7 @@ const siteMetadata = {
     umamiAnalytics: {
       // We use an env variable for this site to avoid other users cloning our analytics ID
       umamiWebsiteId: process.env.NEXT_UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
+      src: 'https://us.umami.is/script.js',
     },
     // plausibleAnalytics: {
     //   plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
@@ -37,11 +39,11 @@ const siteMetadata = {
     //   googleAnalyticsId: '', // e.g. G-XXXXXXX
     // },
   },
-  newsletter: {
-    // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
-    // Please add your .env file and modify it according to your selection
-    provider: 'buttondown',
-  },
+  // newsletter: {
+  //   // supports mailchimp, buttondown, convertkit, klaviyo, revue, emailoctopus
+  //   // Please add your .env file and modify it according to your selection
+  //   provider: 'buttondown',
+  // },
   comments: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
@@ -72,20 +74,20 @@ const siteMetadata = {
       lang: 'en',
     },
   },
-  search: {
-    provider: 'kbar', // kbar or algolia
-    kbarConfig: {
-      searchDocumentsPath: 'search.json', // path to load documents to search
-    },
-    // provider: 'algolia',
-    // algoliaConfig: {
-    //   // The application ID provided by Algolia
-    //   appId: 'R2IYF7ETH7',
-    //   // Public API key: it is safe to commit it
-    //   apiKey: '599cec31baffa4868cae4e79f180729b',
-    //   indexName: 'docsearch',
-    // },
-  },
+  // search: {
+  //   provider: 'kbar', // kbar or algolia
+  //   kbarConfig: {
+  //     searchDocumentsPath: 'search.json', // path to load documents to search
+  //   },
+  //   // provider: 'algolia',
+  //   // algoliaConfig: {
+  //   //   // The application ID provided by Algolia
+  //   //   appId: 'R2IYF7ETH7',
+  //   //   // Public API key: it is safe to commit it
+  //   //   apiKey: '599cec31baffa4868cae4e79f180729b',
+  //   //   indexName: 'docsearch',
+  //   // },
+  // },
 }
 
 module.exports = siteMetadata

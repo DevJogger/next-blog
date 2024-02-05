@@ -1,0 +1,19 @@
+---
+title: 用CSS实现英超阵容介绍的球员卡片效果
+date: '2023-08-13'
+tags: ['CSS', '英超']
+draft: true
+summary: 用CSS实现23/24赛季英超转播开场阵容介绍的球员卡片效果
+---
+
+2023/2024 赛季英超本周来开序幕，今年的转播开场阵容介绍时，球员卡片的翻拍效果让人眼前一亮。
+
+![EplPlayerCard](/static/images/gif/EPL_card_1.gif)
+
+![EplPlayerCard](/static/images/gif/EPL_card_2.gif)
+
+![EplPlayerCard](/static/images/gif/EPL_card_3.gif)
+
+我尝试了一下用 Tailwind CSS 实现这个效果：
+
+<EplPlayerCard primaryColor='bg-[#ec0000]' firstName='Declan' lastName='Rice' number={41} />
