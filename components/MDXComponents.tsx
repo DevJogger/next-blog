@@ -11,12 +11,14 @@ import CircleProgressIndicatorsArbitrary from '../components/post/CircleProgress
 import CircleProgressIndicatorsBasicTailwind from '../components/post/CircleProgressIndicatorsBasicTailwind'
 import CircleProgressIndicatorsThought from '../components/post/CircleProgressIndicatorsThought'
 import HighlightEdge from '../components/post/HighlightEdge'
+import TableWrapper from './TableWrapper'
 
 export const components: MDXComponents = {
   Image,
   TOCInline,
   a: CustomLink,
   pre: Pre,
+  table: TableWrapper,
   BlogNewsletterForm,
   EplPlayerCard,
   MultiColorsBoxes,
