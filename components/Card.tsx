@@ -1,8 +1,10 @@
 import Image from './Image'
 import Link from './Link'
+import TagInCard from '@/components/TagInCard'
+import { type Practice } from '@/data/workshopData'
 
-const Card = ({ title, description, imgSrc, href }) => (
-  <div className="md max-w-[544px] p-4 md:w-1/2">
+const Card = ({ title, tags, description, imgSrc, href }: Practice) => (
+  <div className="p-4">
     <div
       className={`${
         imgSrc && 'h-full'
@@ -14,7 +16,7 @@ const Card = ({ title, description, imgSrc, href }) => (
             <Image
               alt={title}
               src={imgSrc}
-              className="object-cover object-center md:h-36 lg:h-48"
+              className="w-full object-cover object-center"
               width={544}
               height={306}
             />
@@ -23,7 +25,7 @@ const Card = ({ title, description, imgSrc, href }) => (
           <Image
             alt={title}
             src={imgSrc}
-            className="object-cover object-center md:h-36 lg:h-48"
+            className="w-full object-cover object-center"
             width={544}
             height={306}
           />
@@ -38,8 +40,9 @@ const Card = ({ title, description, imgSrc, href }) => (
             title
           )}
         </h2>
-        <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
-        {href && (
+        <TagInCard tags={tags} />
+        <p className="prose max-w-none text-gray-500 dark:text-gray-400">{description}</p>
+        {/* {href && (
           <Link
             href={href}
             className="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
@@ -47,7 +50,7 @@ const Card = ({ title, description, imgSrc, href }) => (
           >
             Learn more &rarr;
           </Link>
-        )}
+        )} */}
       </div>
     </div>
   </div>
