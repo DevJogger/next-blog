@@ -19,10 +19,10 @@ const page = () => {
           />
         </div>
         <div className="flex flex-col items-center gap-4 text-center text-xl font-bold">
-          <span className="text-shadow-lg shadow-black/25 ">
+          <span className="shadow-black/25 text-shadow-lg ">
             Improve your front-end skills by building projects
           </span>
-          <span className="text-shadow-lg text-sm text-[#7D889E] shadow-black/25">
+          <span className="text-sm text-[#7D889E] shadow-black/25 text-shadow-lg">
             Scan the QR code to visit Frontend Mentor and take your coding skills to the next level
           </span>
         </div>
