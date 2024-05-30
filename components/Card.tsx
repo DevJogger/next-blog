@@ -16,7 +16,7 @@ const Card = ({ title, tags, description, imgSrc, href }: Practice) => (
             <Image
               alt={title}
               src={imgSrc}
-              className="w-full object-cover object-center"
+              className="w-full object-cover object-center transition-transform duration-300 hover:scale-105"
               width={544}
               height={306}
             />
@@ -25,7 +25,7 @@ const Card = ({ title, tags, description, imgSrc, href }: Practice) => (
           <Image
             alt={title}
             src={imgSrc}
-            className="w-full object-cover object-center"
+            className="w-full object-cover object-center transition-transform duration-300 hover:scale-105"
             width={544}
             height={306}
           />
