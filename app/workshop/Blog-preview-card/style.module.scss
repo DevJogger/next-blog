@@ -1,0 +1,88 @@
+$black: #111111;
+$pure-white: #ffffff;
+$yellow: #f4d04e;
+$grey: #7f7f7f;
+
+.main {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: 400px) {
+    background: #f0cf40;
+  }
+
+  .card {
+    width: 327px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    border-radius: 20px;
+    border: 1px solid $black;
+    background: $pure-white;
+    box-shadow: 8px 8px 0px 0px #000;
+
+    line-height: 1.5;
+    color: $black;
+
+    @media screen and (min-width: 768px) {
+      width: 384px;
+    }
+    .image {
+      border-radius: 10px;
+      height: 200px;
+      width: 100%;
+      background: url('/static/images/workshop/002/blogimage.png') no-repeat center center / cover;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-self: stretch;
+      .category {
+        border-radius: 4px;
+        background: $yellow;
+        padding: 4px 12px;
+        font-size: 12px;
+        font-weight: 800;
+        width: fit-content;
+      }
+      .publish-date {
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .title {
+        font-size: 20px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $yellow;
+        }
+      }
+      .description {
+        font-size: 16px;
+        font-weight: 500;
+        color: $grey;
+      }
+    }
+
+    .author {
+      font-size: 14px;
+      font-weight: 800;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .user-pic {
+        height: 32px;
+        width: 32px;
+      }
+    }
+  }
+}
