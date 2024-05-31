@@ -8,9 +8,22 @@ $grey: #7f7f7f;
   display: flex;
   justify-content: center;
   align-items: center;
+  ::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100lvh;
+    background: $yellow;
+    z-index: -1;
+  }
 
-  @media screen and (min-width: 400px) {
-    background: #f0cf40;
+  @media screen and (min-width: 640px) {
+    background: $yellow;
+    ::after {
+      display: none;
+    }
   }
 
   .card {

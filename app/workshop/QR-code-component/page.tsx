@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 const page = () => {
   return (
-    <div className="grid h-full w-full place-items-center sm:bg-[#d5e1ef]">
+    <div className="grid h-full w-full place-items-center after:fixed after:left-0 after:top-0 after:-z-10 after:h-lvh after:w-full after:bg-[#d5e1ef] after:content-[''] sm:bg-[#d5e1ef] sm:after:content-none">
       <div className="flex w-80 flex-col gap-6 rounded-3xl bg-white p-4 pb-10 drop-shadow-md">
         <div
           className="grid h-72 place-items-center"
